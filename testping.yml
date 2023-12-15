@@ -1,0 +1,9 @@
+---
+- name: Test de ping vers google.fr
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - name: Effectuer un ping vers google.fr
+      become: no
+      command: ping -c 4 google.fr
