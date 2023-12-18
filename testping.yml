@@ -1,7 +1,6 @@
 ---
 - name: Test de ping vers google.fr
-  gather_facts: true
-
+  
   tasks:
     - name: Effectuer un ping vers google.fr
       become: yes
