@@ -2,8 +2,8 @@
 - hosts: all
   tasks:
     - name: ensure nginx is at the latest version
-      apt: name=httpd state=latest
+      apt: name=apache2 state=latest
     - name: start nginx
       service:
-          name: httpd
+          name: apache2
           state: started
