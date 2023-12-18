@@ -1,6 +1,6 @@
 ---
 - name: Test de ping vers google.fr
-  
+- hosts: all
   tasks:
     - name: Effectuer un ping vers google.fr
       become: yes
