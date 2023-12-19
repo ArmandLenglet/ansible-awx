@@ -4,20 +4,10 @@
   gather_facts: no
 
   tasks:
-    - name: Créer une nouvelle VM-APP dans Hyper-V
-      community.windows.hyperv_vm:
-        name: "VM-APP-DEMO"                  
-        state: started
-        memory_mb: 5120                 
-        processors: 4                   
-        switchname: "VSwitch_interne_DEMO"   
-      when: not vswitch_info.exists     
+  - name: Créer une nouvelle VM-APP dans Hyper-V avec PowerShell
+    win_shell: |
+    New-VM -Name "VM-APP-DEMO" -MemoryStartupBytes 5368709120 -Generation 2 -SwitchName "VSwitch_interne_DEMO"
 
-    - name: Créer un vSwitch dans Hyper-V
-      community.windows.hyperv_vswitch:
-        name: "VSwitch_interne_DEMO"         
-        state: present
-        subnet_address: "10.42.42.1"    
-        subnet_mask: "255.255.255.0"    
-        dhcp: yes                       
-      when: not vswitch_info.exists 
+  - name: Démarrez la VM nouvellement créée
+    win_shell: |
+    Start-VM -Name "VM-APP-DEMO"
