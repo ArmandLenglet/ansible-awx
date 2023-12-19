@@ -7,7 +7,5 @@
   - name: Créer une nouvelle VM-APP dans Hyper-V avec PowerShell
     win_shell: |
     New-VM -Name "VM-APP-DEMO" -MemoryStartupBytes 5368709120 -Generation 2 -SwitchName "VSwitch_interne_DEMO"
-
-  - name: Démarrez la VM nouvellement créée
     win_shell: |
     Start-VM -Name "VM-APP-DEMO"
