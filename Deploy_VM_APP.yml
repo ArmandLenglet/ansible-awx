@@ -1,5 +1,7 @@
 ---
 - name: Création d'une VM-APP et d'un vSwitch dans Hyper-V
+  collections:
+    - community.windows
   hosts: all
   gather_facts: no
   tasks:
