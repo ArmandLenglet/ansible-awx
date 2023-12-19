@@ -4,7 +4,6 @@
   gather_facts: no
   become: yes
   become_user: ale.adminlocal
-  become_password: Cetrox88$
   become_method: runas
   
   tasks:
