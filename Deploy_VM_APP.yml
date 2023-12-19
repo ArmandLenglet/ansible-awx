@@ -1,5 +1,22 @@
 ---
-- hosts: all  
-  gather_facts: true
+- name: Création d'une VM-APP et d'un vSwitch dans Hyper-V
+  hosts: all
+  gather_facts: no
   tasks:
-  - action: ping
+    - name: Créer une nouvelle VM-APP dans Hyper-V
+      community.windows.hyperv_vm:
+        name: "VM-APP-DEMO"                  # Remplace par le nom de ta machine virtuelle
+        state: started
+        memory_mb: 5120                 # Remplace par la taille de RAM en Mo pour la machine virtuelle
+        processors: 4                   # Remplace par le nombre de processeurs virtuels
+        switchname: "VSwitch_interne_DEMO"   # Remplace par le nom du vSwitch à connecter
+      when: not vswitch_info.exists     # Crée seulement si le vSwitch n'existe pas
+
+    - name: Créer un vSwitch dans Hyper-V
+      community.windows.hyperv_vswitch:
+        name: "VSwitch_interne_DEMO"         # Remplace par le nom que tu souhaites donner à ton vSwitch
+        state: present
+        subnet_address: "10.42.42.1"    # Adresse IP du sous-réseau pour le vSwitch
+        subnet_mask: "255.255.255.0"    # Masque de sous-réseau pour le vSwitch
+        dhcp: yes                       # Active le serveur DHCP sur le vSwitch
+      when: not vswitch_info.exists     # Crée seulement si le vSwitch n'existe pas
