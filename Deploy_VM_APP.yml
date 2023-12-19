@@ -2,16 +2,14 @@
 - name: Créer une nouvelle VM-APP dans Hyper-V avec PowerShell
   hosts: all
   gather_facts: no
-  become: true
+  become: yes
+  become_user: ale.adminlocal
+  become_password: Cetrox88$
+  become_method: runas
+  
   tasks:
     - name: Exécution de la commande PowerShell pour créer une VM
       ansible.windows.win_shell:
        Script : |
           New-VM -Name "VM-APP-DEMO" -MemoryStartupBytes 5368709120 -Generation 2 -SwitchName "VSwitch_interne_DEMO"
-       arguments:
-         - ExecutionPolicy
-         - ByPass
 
-    - name: Démarrer la VM nouvellement créée
-      ansible.windows.win_shell: |
-        Start-VM -Name "VM-APP-DEMO"
