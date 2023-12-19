@@ -1,3 +1,4 @@
+---
 - name: Création d'une VM-APP et d'un vSwitch dans Hyper-V
   hosts: all
   gather_facts: no
