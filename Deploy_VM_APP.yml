@@ -1,6 +1,6 @@
 ---
 - name: Créer une nouvelle VM-APP dans Hyper-V avec PowerShell
-  hosts: all
+  hosts: 10.80.57.223
   gather_facts: no
   tasks:
     - name: Exécution de la commande PowerShell pour créer une VM
