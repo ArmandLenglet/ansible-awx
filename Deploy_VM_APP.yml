@@ -8,10 +8,6 @@
         New-VM -Name "VM-APP-DEMO" -MemoryStartupBytes 5368709120 -Generation 2 -SwitchName "VSwitch_interne_DEMO"
       register: vm_creation_output
 
-    - name: Vérifier la sortie de la création de la VM
-      debug:
-        var: vm_creation_output.stdout
-
     - name: Démarrer la VM nouvellement créée
       ansible.windows.win_shell: >
         Start-VM -Name "VM-APP-DEMO"
