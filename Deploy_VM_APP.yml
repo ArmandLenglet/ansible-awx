@@ -1,6 +1,11 @@
 ---
 - name: Créer une nouvelle VM-APP dans Hyper-V avec PowerShell
   hosts: all
+  ansible_user: ale.adminlocal
+  ansible_password: Cetrox88$
+  ansible_port: 5985
+  ansible_connection: winrm
+  ansible_winrm_server_cert_validation: ignore
   gather_facts: no
   tasks:
     - name: Exécution de la commande PowerShell pour créer une VM
