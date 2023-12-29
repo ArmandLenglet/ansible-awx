@@ -37,8 +37,8 @@
         Expand-Archive -LiteralPath "{{ VMPath }}{{ VMName }}"\\"Virtual Hard Disks\IMGPRD-HUB_MASTER_HV.zip" -DestinationPath "{{ VMPath }}{{ VMName }}"\\"Virtual Hard Disks\" -Force
         Convert-VHD -Path "{{ VMPath }}{{ VMName }}"\\"Virtual Hard Disks\MASTER-IMGPRD-HUB-disk1.vhd" -DestinationPath "{{ VMPath }}{{ VMName }}"\\"Virtual Hard Disks\"{{ VMName }}"-disk1-fixe.vhdx" -VHDType Fixed
         Convert-VHD -Path "{{ VMPath }}{{ VMName }}"\\"Virtual Hard Disks\MASTER-IMGPRD-HUB-disk2.vhd" -DestinationPath "{{ VMPath }}{{ VMName }}"\\"Virtual Hard Disks\"{{ VMName }}"-disk2-fixe.vhdx" -VHDType Fixed
-        Add-VMHardDiskDrive -VMName "{{ VMName }}" -Path "{{ VMPath }}{{ VMName }}"\\"Virtual Hard Disks\"{{ VMName }}"-disk1-fixe.vhdx"
-        Add-VMHardDiskDrive -ControllerType SCSI -VMName "{{ VMName }}" -Path "{{ VMPath }}{{ VMName }}"\\"Virtual Hard Disks\"{{ VMName }}"-disk2-fixe.vhdx"
+#        Add-VMHardDiskDrive -VMName "{{ VMName }}" -Path "{{ VMPath }}{{ VMName }}"\\"Virtual Hard Disks\"{{ VMName }}"-disk1-fixe.vhdx"
+#        Add-VMHardDiskDrive -ControllerType SCSI -VMName "{{ VMName }}" -Path "{{ VMPath }}{{ VMName }}"\\"Virtual Hard Disks\"{{ VMName }}"-disk2-fixe.vhdx"
 
     - name: Nettoyage des disques et répertoire
       ansible.windows.win_shell: |
@@ -51,4 +51,4 @@
 
     - name: Démarrer la VM nouvellement créée
       ansible.windows.win_shell: |
-        Start-VM -Name "{{ VMName }}"
+#        Start-VM -Name "{{ VMName }}"
