@@ -24,10 +24,10 @@
         }
 
         if (-not $existe) {
-	        New-VMSwitch -Name "{{ SwitchInterne }}" -SwitchType Internal -Notes "For Evolucare Imaging Internal VMs"
-	        New-NetIPAddress -IPAddress 10.42.42.1 -InterfaceAlias "vEthernet (vSwitch Interne)"
-                Disable-NetAdapterBinding -InterfaceAlias "vEthernet (vSwitch Interne)" -ComponentID ms_tcpip6
-                Write-Host "Le commutateur "{{ SwitchInterne }}" a ete cree avec succes."
+#	        New-VMSwitch -Name "{{ SwitchInterne }}" -SwitchType Internal -Notes "For Evolucare Imaging Internal VMs"
+#	        New-NetIPAddress -IPAddress 10.42.42.1 -InterfaceAlias "vEthernet (vSwitch Interne)"
+#                Disable-NetAdapterBinding -InterfaceAlias "vEthernet (vSwitch Interne)" -ComponentID ms_tcpip6
+#                Write-Host "Le commutateur "{{ SwitchInterne }}" a ete cree avec succes."
         } else {
                 Write-Host "Le commutateur "{{ SwitchInterne }}" existe deja."
         }   
