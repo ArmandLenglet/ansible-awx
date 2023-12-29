@@ -27,7 +27,7 @@
     - name: Créer la machine virtuelle avec 4 vCPU et disque principal dans le répertoire VM
       ansible.windows.win_shell: |
         $VMName = "VM-APP-DEMO"
-        New-VM -Name $VMName -MemoryStartupBytes 5368709120 -Generation 1 -SwitchName "VSwitch_interne_DEMO" -SwitchName "VSwitch_interne_DEMO" -Path "N:\VM\$VMName"
+        New-VM -Name $VMName -MemoryStartupBytes 5368709120 -Generation 1 -SwitchName "VSwitch_externe_DEMO" -SwitchName "VSwitch_interne_DEMO" -Path "N:\VM\$VMName"
         Set-VMProcessor -VMName $VMName -Count 4
         New-VHD -Path "N:\VM\$VMName\Disk\VM-APP-DEMO.vhdx" -SizeBytes 10GB
         Add-VMHardDiskDrive -VMName $VMName -Path "N:\VM\$VMName\VM-APP-DEMO.vhdx"
