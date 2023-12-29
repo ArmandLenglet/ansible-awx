@@ -13,9 +13,9 @@
   tasks:
     - name: Création des vSwitch Interne
       ansible.windows.win_shell: |
-	        New-VMSwitch -Name "{{ SwitchInterne }}" -SwitchType Internal -Notes "For Evolucare Imaging Internal VMs"
-	        New-NetIPAddress -IPAddress 10.42.42.1 -InterfaceAlias "vEthernet (vSwitch Interne)"
-          Disable-NetAdapterBinding -InterfaceAlias "vEthernet (vSwitch Interne)" -ComponentID ms_tcpip6
+        New-VMSwitch -Name "{{ SwitchInterne }}" -SwitchType Internal -Notes "For Evolucare Imaging Internal VMs"
+        New-NetIPAddress -IPAddress 10.42.42.1 -InterfaceAlias "vEthernet (vSwitch Interne)"
+        Disable-NetAdapterBinding -InterfaceAlias "vEthernet (vSwitch Interne)" -ComponentID ms_tcpip6
 
     - name: Créer la machine virtuelle avec 2 vCPU et disque principal dans le répertoire VM
       ansible.windows.win_shell: |
