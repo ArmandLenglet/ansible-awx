@@ -19,7 +19,7 @@
 
     - name: Créer la machine virtuelle avec 2 vCPU et disque principal dans le répertoire VM
       ansible.windows.win_shell: |
-        New-VM -Name "{{ VMName }}" -MemoryStartupBytes "{{ VMRam }}" -Generation 1 -SwitchName "{{ SwitchInterne }}" -Path "{{ VMPath }}"
+        New-VM -Name "{{ VMName }}" -MemoryStartupBytes 2GB -Generation 1 -SwitchName "{{ SwitchInterne }}" -Path "{{ VMPath }}"
         Set-VMProcessor -VMName "{{ VMName }}" -Count "{{ VMCpu }}" -StaticMemory -CheckpointType Disabled -AutomaticStopAction Shutdown -AutomaticStartAction Start -AutomaticStartDelay 10
         New-Item "{{ VMPath }}{{ VMName }}\\Virtual Hard Disks" -itemType Directory
       register: vm_creation_output
