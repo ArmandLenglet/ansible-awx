@@ -36,8 +36,8 @@
         $VMsnameAPP= "VM-IMGPRD-APP"
         $cpuAPP= 2
         $ramAPP= 10GB
-        $PathVMAPP= "D:\HYPERV\"
-        $PathVMAPPDISK4= "E:\HYPERV\"
+        $PathVMAPP= "M:\HYPERV\"
+        $PathVMAPPDISK4= "N:\HYPERV\"
         new-vm -Name $VMsnameAPP -MemoryStartupBytes $ramAPP -Generation 1 -Switchname $SwitchLan -Path $PathVMAPP 
         Set-VM -Name $VMsnameAPP -ProcessorCount $cpuAPP -StaticMemory -CheckpointType Disabled -AutomaticStopAction Shutdown -AutomaticStartAction Start -AutomaticStartDelay 20
         Add-VMNetworkAdapter -VMName $VMsnameAPP -SwitchName $SwitchInterne
