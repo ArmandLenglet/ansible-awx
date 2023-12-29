@@ -5,6 +5,9 @@
   tasks:
     - name: Execute PowerShell script
       win_shell: |
+        New-Item "M:\HYPERV\" -itemType Directory
+        New-Item "N:\HYPERV\" -itemType Directory
+        
         $SwitchLan = 'vSwitch From NIC1'
         $SwitchInterne = 'vSwitch Interne'
 
