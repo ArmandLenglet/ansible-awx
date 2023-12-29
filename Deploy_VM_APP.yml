@@ -3,27 +3,14 @@
   hosts: all
   gather_facts: no
   tasks:
-    - name: Vérifier l'existence des vSwitch Interne
-      ansible.windows.win_shell: | 
-         Get-VMSwitch -SwitchType Internal
-      register: internal_vswitch_check
-      failed_when: internal_vswitch_check.rc != 0
-
-    - name: Vérifier l'existence des vSwitch Externe
-      ansible.windows.win_shell: |
-         Get-VMSwitch -SwitchType External
-      register: external_vswitch_check
-      failed_when: external_vswitch_check.rc != 0
-
+  
     - name: Créer un vSwitch interne
       ansible.windows.win_shell: |
         New-VMSwitch -Name "VSwitch_interne_DEMO" -SwitchType Internal
-      when: internal_vswitch_check.rc != 0
       
     - name: Créer un vSwitch Externe
       ansible.windows.win_shell: |
         New-VMSwitch -Name "VSwitch_externe_DEMO" -SwitchType External -NetAdapterName "Nom_carte_reseau"
-      when: external_vswitch_check.rc != 0
 
     - name: Créer la machine virtuelle avec 4 vCPU et disque principal dans le répertoire VM
       ansible.windows.win_shell: |
