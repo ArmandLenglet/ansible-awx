@@ -42,14 +42,14 @@
 #        New-VMSwitch -Name $ActiveNetAdapter -SwitchType External -NetAdapterName $ActiveNetAdapter
       #when: external_vswitch_check.rc != 0
 
-    - name: Créer la machine virtuelle avec 4 vCPU et disque principal dans le répertoire VM
+    - name: Créer la machine virtuelle avec 2 vCPU et disque principal dans le répertoire VM
       ansible.windows.win_shell: |
         New-VM -Name "{{ VMName }}" -MemoryStartupBytes 5368709120 -Generation 1 -SwitchName "VSwitch_interne_DEMO" -Path "{{ VMPath }}"
         Set-VMProcessor -VMName "{{ VMName }}" -Count 2
         New-VHD -Path "{{ VMPath }}{{ VMName }}\\Disk\\Disk-1.vhdx" -SizeBytes 10GB
-        Add-VMHardDiskDrive -VMName "{{ VMName }}" -Path "{{ VMPath }}{{ VMName }}\\Disk\\Disk-1.vhdx"
+        Add-VMHardDiskDrive -VMName "{{ VMName }}" -Path "{{ VMPath }}{{ VMName }}\\Virtual-Hard-Disks\\Disk-1.vhdx"
         New-VHD -Path "{{ VMPath }}{{ VMName }}\\Disk\\Disk-2.vhdx" -SizeBytes 10GB
-        Add-VMHardDiskDrive -VMName "{{ VMName }}" -Path "{{ VMPath }}{{ VMName }}\\Disk\\Disk-2.vhdx"
+        Add-VMHardDiskDrive -VMName "{{ VMName }}" -Path "{{ VMPath }}{{ VMName }}\\Virtual-Hard-Disks\\Disk-2.vhdx"
 #        Add-VMNetworkAdapter -VMName "{{ VMName }}" -SwitchName "VSwitch_externe_DEMO"
       register: vm_creation_output
            
