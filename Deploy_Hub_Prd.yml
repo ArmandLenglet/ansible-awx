@@ -2,6 +2,18 @@
 - name: Créer une nouvelle VM-APP dans Hyper-V avec PowerShell
   hosts: all
   gather_facts: no
+  vars:
+    vcpu: "4"
+    vram: "8192"
+    vm_location: "C:\HyperV\VMs"
+    disk_location: "C:\HyperV\Disks"
+    
   tasks:
-    - name: Execute PowerShell script
-      win_shell: |
+    - name: Create a Hyper-V VM
+      win_virtual_machine:
+        name: "MyVM"
+        state: "started"
+        vcpus: "{{ vcpu }}"
+        memory_mb: "{{ vram }}"
+        vm_path: "{{ vm_location }}"
+        disk_path: "{{ disk_location }}/MyDisk.vhdx"
