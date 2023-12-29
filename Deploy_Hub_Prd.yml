@@ -9,11 +9,13 @@
     disk_location: "C:\\HyperV\\Disks"
     
   tasks:
-    - name: Create a Hyper-V VM
-      win_virtual_machine:
-        name: "MyVM"
-        state: "started"
-        vcpus: "{{ vcpu }}"
-        memory_mb: "{{ vram }}"
-        vm_path: "{{ vm_location }}"
-        disk_path: "{{ disk_location }}/MyDisk.vhdx"
+    - name: Create VM directory
+      win_shell: New-Item -Path "{{ vm_location }}" -ItemType Directory
+
+    - name: Create Disk directory
+      win_shell: New-Item -Path "{{ disk_location }}" -ItemType Directory
+
+    - name: Create VM
+      win_shell: New-VM -Name MyVM -MemoryStartupBytes {{ vram }} -Path "{{ vm_location }}" -NewVHDPath "{{ disk_location }}/MyDisk.vhdx" -NewVHDSizeBytes 10GB -SwitchName "YourVirtualSwitchName"
+      become: yes
+      become_user: Administrator 
