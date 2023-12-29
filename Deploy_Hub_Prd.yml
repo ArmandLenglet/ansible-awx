@@ -17,5 +17,4 @@
 
     - name: Create VM
       win_shell: New-VM -Name MyVM -MemoryStartupBytes {{ vram }} -Path "{{ vm_location }}" -NewVHDPath "{{ disk_location }}/MyDisk.vhdx" -NewVHDSizeBytes 10GB -SwitchName "YourVirtualSwitchName"
-      become: yes
-      become_user: Administrator 
+
