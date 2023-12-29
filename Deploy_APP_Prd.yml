@@ -31,44 +31,59 @@
             Write-Host "Le commutateur $SwitchInterne existe deja."
         }
 
-- name: Create Virtual Machines
-  hosts: windows_hosts
-  tasks:
     - name: Execute PowerShell script
       win_shell: |
-        # Insérez ici le reste du script de création de machines virtuelles...
+        $VMsnameAPP= "VM-IMGPRD-APP"
+        $cpuAPP= 8
+        $ramAPP= 10GB
+        $PathVMAPP= "D:\HYPERV\"
+        $PathVMAPPDISK4= "E:\HYPERV\"
 
-- name: Download and Unzip Master Images
-  hosts: windows_hosts
-  tasks:
+        new-vm -Name $VMsnameAPP -MemoryStartupBytes $ramAPP -Generation 1 -Switchname $SwitchLan -Path $PathVMAPP 
+        Set-VM -Name $VMsnameAPP -ProcessorCount $cpuAPP -StaticMemory -CheckpointType Disabled -AutomaticStopAction Shutdown -AutomaticStartAction Start -AutomaticStartDelay 20
+        Add-VMNetworkAdapter -VMName $VMsnameAPP -SwitchName $SwitchInterne
+        New-Item "$PathVMAPP\$VMsnameAPP\Virtual Hard Disks" -itemType Directory
+        Set-VM -Name $VMsnameAPP -Note "Installation le : $(Get-Date)"
+
     - name: Execute PowerShell script
       win_shell: |
-        # Insérez ici les commandes de téléchargement et de dézippage...
+       $URIAPP="https://downloads-imaging.evolucare.com/masters/IMGPRD-APPv9.1_master/IMGPRD-APP9.1_MASTER_HV.zip";
 
-- name: Convert Virtual Hard Disks
-  hosts: windows_hosts
-  tasks:
+        $pair = "$('DownloadsMaster'):$('1Y6fhgt?MQ?InkR#75UWy1TujTNN?Sf&5bvE#BnX')"
+        $encodedCreds = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes($pair))
+        $basicAuthValue = "Basic $encodedCreds"
+        $Headers = @{
+          	Authorization = $basicAuthValue
+        }
+
+        Measure-Command { Invoke-WebRequest -Uri $URIAPP -OutFile "$PathVMAPP$VMsnameAPP\Virtual Hard Disks\IMGPRD-APP9.1_MASTER_HV.zip" -Headers $Headers
+        }
+
+
+        Write-Host "Unzip Master $VMsnameAPP in progress ..." -ForeGroundColor Green
+        Expand-Archive -LiteralPath $PathVMAPP$VMsnameAPP\"Virtual Hard Disks\IMGPRD-APP9.1_MASTER_HV.zip" -DestinationPath $PathVMAPP$VMsnameAPP\"Virtual Hard Disks\" -Force
+
+        Write-Host "Unzip Master $VMsnameBDD TO DO" -ForeGroundColor Green
+        Expand-Archive -LiteralPath $PathVMBDD$VMsnameBDD\"Virtual Hard Disks\IMGPRD-BDD9.1_MASTER_HV.zip" -DestinationPath $PathVMBDD$VMsnameBDD\"Virtual Hard Disks\" -Force
+
+        Convert-VHD -Path $PathVMAPP$VMsnameAPP\"Virtual Hard Disks\MASTER-IMGPRD-APP9.1-disk1.vhd" -DestinationPath $PathVMAPP$VMsnameAPP\"Virtual Hard Disks\"$VMsnameAPP"-disk1-fixe.vhdx" -VHDType Fixed
+        Convert-VHD -Path $PathVMAPP$VMsnameAPP\"Virtual Hard Disks\MASTER-IMGPRD-APP9.1-disk2.vhd" -DestinationPath $PathVMAPP$VMsnameAPP\"Virtual Hard Disks\"$VMsnameAPP"-disk2-fixe.vhdx" -VHDType Fixed
+        Convert-VHD -Path $PathVMAPP$VMsnameAPP\"Virtual Hard Disks\MASTER-IMGPRD-APP9.1-disk3.vhd" -DestinationPath $PathVMAPP$VMsnameAPP\"Virtual Hard Disks\"$VMsnameAPP"-disk3-fixe.vhdx" -VHDType Fixed
+        Convert-VHD -Path $PathVMAPP$VMsnameAPP\"Virtual Hard Disks\MASTER-IMGPRD-APP9.1-disk4.vhd" -DestinationPath $PathVMAPPDISK4$VMsnameAPP\"Virtual Hard Disks\"$VMsnameAPP"-disk4-dyn.vhdx" -VHDType Dynamic
+
+        Add-VMHardDiskDrive -VMName $VMsnameAPP -Path $PathVMAPP$VMsnameAPP\"Virtual Hard Disks\$VMsnameAPP-disk1-fixe.vhdx"
+        Add-VMHardDiskDrive -ControllerType SCSI -VMName $VMsnameAPP -Path $PathVMAPP$VMsnameAPP\"Virtual Hard Disks\$VMsnameAPP-disk2-fixe.vhdx"
+        Add-VMHardDiskDrive -ControllerType SCSI -VMName $VMsnameAPP -Path $PathVMAPP$VMsnameAPP\"Virtual Hard Disks\$VMsnameAPP-disk3-fixe.vhdx"
+        Add-VMHardDiskDrive -ControllerType SCSI -VMName $VMsnameAPP -Path $PathVMAPPDISK4$VMsnameAPP\"Virtual Hard Disks\$VMsnameAPP-disk4-dyn.vhdx"
+        
     - name: Execute PowerShell script
       win_shell: |
-        # Insérez ici les commandes de conversion des disques durs virtuels...
+        rm $PathVMAPP$VMsnameAPP\"Virtual Hard Disks"\IMGPRD-APP9.1_MASTER_HV.zip -r -Force
+        rm $PathVMBDD$VMsnameBDD\"Virtual Hard Disks"\IMGPRD-BDD9.1_MASTER_HV.zip -r -Force
 
-- name: Attach Virtual Hard Disks to VM
-  hosts: windows_hosts
-  tasks:
-    - name: Execute PowerShell script
-      win_shell: |
-        # Insérez ici les commandes d'attachement des disques aux machines virtuelles...
+        rm $PathVMAPP$VMsnameAPP\"Virtual Hard Disks"\*.vhd -r -Force
+        rm $PathVMBDD$VMsnameBDD\"Virtual Hard Disks"\*.vhd -r -Force
 
-- name: Clean Up
-  hosts: windows_hosts
-  tasks:
-    - name: Execute PowerShell script
-      win_shell: |
-        # Insérez ici les commandes de nettoyage...
-
-- name: Start Virtual Machines
-  hosts: windows_hosts
-  tasks:
     - name: Execute PowerShell script
       win_shell: |
         Start-VM $VMsnameAPP
