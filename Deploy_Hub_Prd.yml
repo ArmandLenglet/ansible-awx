@@ -1,0 +1,7 @@
+---
+- name: Créer une nouvelle VM-APP dans Hyper-V avec PowerShell
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Execute PowerShell script
+      win_shell: |
