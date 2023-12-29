@@ -48,7 +48,7 @@
         Set-VMProcessor -VMName "{{ VMName }}" -Count 2
         New-VHD -Path "{{ VMPath }}{{ VMName }}\\Disk\\Disk-1.vhdx" -SizeBytes 10GB
         Add-VMHardDiskDrive -VMName "{{ VMName }}" -Path "{{ VMPath }}{{ VMName }}\\Disk\\Disk-1.vhdx"
-        New-VHD -Path "{{ VMPath }}{{ VMName }}\\Disk-2.vhdx" -SizeBytes 10GB
+        New-VHD -Path "{{ VMPath }}{{ VMName }}\\Disk\\Disk-2.vhdx" -SizeBytes 10GB
         Add-VMHardDiskDrive -VMName $VMName -Path "{{ VMPath }}{{ VMName }}\\Disk\\Disk-2.vhdx"
 #        Add-VMNetworkAdapter -VMName "{{ VMName }}" -SwitchName "VSwitch_externe_DEMO"
       register: vm_creation_output
