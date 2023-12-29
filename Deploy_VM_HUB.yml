@@ -32,7 +32,7 @@
         $Headers = @{
           	Authorization = $basicAuthValue
         }
-        Measure-Command { Invoke-WebRequest -Uri "{{ URLHUB }}" -OutFile "{{ VMPath }}{{ VMName }}"\"Virtual Hard Disks\IMGPRD-HUB_MASTER_HV.zip" -Headers $Headers
+        Measure-Command { Invoke-WebRequest -Uri {{ URLHUB }} -OutFile {{ VMPath }}{{ VMName }}\"Virtual Hard Disks\IMGPRD-HUB_MASTER_HV.zip" -Headers $Headers
         }
 #        Expand-Archive -LiteralPath "{{ VMPath }}{{ VMName }}"\\"Virtual Hard Disks\IMGPRD-HUB_MASTER_HV.zip" -DestinationPath "{{ VMPath }}{{ VMName }}"\\"Virtual Hard Disks\" -Force
 #        Convert-VHD -Path "{{ VMPath }}{{ VMName }}"\"Virtual Hard Disks\MASTER-IMGPRD-HUB-disk1.vhd" -DestinationPath "{{ VMPath }}{{ VMName }}"\"Virtual Hard Disks\"{{ VMName }}"-disk1-fixe.vhdx" -VHDType Fixed
