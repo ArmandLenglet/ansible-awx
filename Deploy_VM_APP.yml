@@ -3,8 +3,8 @@
   hosts: all
   gather_facts: no
   vars:
-    VMName = "VM-APP-DEMO"
-    VMPath = "N:\VM\"
+    VMName: "VM-APP-DEMO"
+    VMPath: "N:\\VM\\"
   tasks:
     - name: Récupérer le nom de la carte réseau active
       ansible.windows.win_shell: |
