@@ -5,8 +5,8 @@
   vars:
     vcpu: "4"
     vram: "8192"
-    vm_location: "C:\HyperV\VMs"
-    disk_location: "C:\HyperV\Disks"
+    vm_location: "C:\\HyperV\\VMs"
+    disk_location: "C:\\HyperV\\Disks"
     
   tasks:
     - name: Create a Hyper-V VM
