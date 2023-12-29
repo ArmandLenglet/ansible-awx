@@ -4,7 +4,7 @@
   gather_facts: no
   vars:
     VMName: "VM-IMGPRD-HUB"
-    VMPath: "N:\HYPERV\"
+    VMPath: "N:\\HYPERV\\"
     VMCpu: "2"
     VMRam: "2GB"
     SwitchInterne: "vSwitch Interne"
