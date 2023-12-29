@@ -3,8 +3,8 @@
   hosts: all
   gather_facts: no
   vars:
-    vcpu: "4"
-    vram: "8192"
+    vcpu: "2"
+    vram: "4096"
     vm_location: "C:\\HyperV\\VMs"
     disk_location: "C:\\HyperV\\Disks"
     
