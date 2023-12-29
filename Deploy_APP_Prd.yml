@@ -2,62 +2,71 @@
 - name: Créer une nouvelle VM-APP dans Hyper-V avec PowerShell
   hosts: all
   gather_facts: no
-  vars:
-    VMsnameAPP: "VM-IMGPRD-APP"
-    cpuAPP: "8"
-    ramAPP: "10GB"
-    PathVMAPP: "D:\HYPERV\"
-    PathVMAPPDISK4: "E:\HYPERV\"
-    URIAPP: "https://downloads-imaging.evolucare.com/masters/IMGPRD-APPv9.1_master/IMGPRD-APP9.1_MASTER_HV.zip"
   tasks:
-      
-    - name: Creating HyperV folders
-      ansible.windows.win_shell: |
-        new-vm -Name $VMsnameAPP -MemoryStartupBytes $ramAPP -Generation 1 -Switchname $SwitchLan -Path $PathVMAPP 
-        Set-VM -Name $VMsnameAPP -ProcessorCount $cpuAPP -StaticMemory -CheckpointType Disabled -AutomaticStopAction Shutdown -AutomaticStartAction Start -AutomaticStartDelay 20
-        Add-VMNetworkAdapter -VMName $VMsnameAPP -SwitchName $SwitchInterne
-        New-Item "$PathVMAPP\$VMsnameAPP\Virtual Hard Disks" -itemType Directory
-      
-    - name: Afficher la sortie de la commande Get-VMSwitch -SwitchType Internal
-      debug:
-        var: internal_vswitch_check.stdou
+    - name: Execute PowerShell script
+      win_shell: |
+        $SwitchLan = 'vSwitch From NIC1'
+        $SwitchInterne = 'vSwitch Interne'
 
-#    - name: Vérifier l'existence des vSwitch Externe
-#      ansible.windows.win_shell: |
-#        Get-VMSwitch -SwitchType External
-#      register: external_vswitch_check
-#      failed_when: external_vswitch_check.rc != 0
-      
-#    - name: Afficher la sortie de la commande Get-VMSwitch -SwitchType Externe
-#      debug:
-#        var: external_vswitch_check.stdou
-      
-    - name: Créer un vSwitch interne
-      ansible.windows.win_shell: |
-        New-VMSwitch -Name "VSwitch_interne_DEMO" -SwitchType Internal
-#      when: internal_vswitch_check.rc != 0
-      
-#    - name: Créer un vSwitch Externe
-#      ansible.windows.win_shell: |
-#        $ActiveNetAdapter = "{{ active_net_adapter.stdout }}"
-#        New-VMSwitch -Name $ActiveNetAdapter -SwitchType External -NetAdapterName $ActiveNetAdapter
-      #when: external_vswitch_check.rc != 0
+        $commutateursVirtuels = Get-VMSwitch
 
-    - name: Créer la machine virtuelle avec 2 vCPU et disque principal dans le répertoire VM
-      ansible.windows.win_shell: |
-        New-VM -Name "{{ VMName }}" -MemoryStartupBytes 5368709120 -Generation 1 -SwitchName "VSwitch_interne_DEMO" -Path "{{ VMPath }}"
-        Set-VMProcessor -VMName "{{ VMName }}" -Count 2
-        New-VHD -Path "{{ VMPath }}{{ VMName }}\\Disk\\Disk-1.vhdx" -SizeBytes 10GB
-        Add-VMHardDiskDrive -VMName "{{ VMName }}" -Path "{{ VMPath }}{{ VMName }}\\Virtual-Hard-Disks\\Disk-1.vhdx"
-        New-VHD -Path "{{ VMPath }}{{ VMName }}\\Disk\\Disk-2.vhdx" -SizeBytes 10GB
-        Add-VMHardDiskDrive -VMName "{{ VMName }}" -Path "{{ VMPath }}{{ VMName }}\\Virtual-Hard-Disks\\Disk-2.vhdx"
-#        Add-VMNetworkAdapter -VMName "{{ VMName }}" -SwitchName "VSwitch_externe_DEMO"
-      register: vm_creation_output
-           
-    - name: Vérifier la sortie de la création de la VM
-      debug:
-          var: vm_creation_output.stdout
+        $existe = $false
+        foreach ($vSwitch in $commutateursVirtuels) {
+            if ($vSwitch.Name -eq $SwitchInterne -and $vSwitch.SwitchType -eq "Internal") {
+                $existe = $true
+                break
+            }
+        }
 
-    - name: Démarrer la VM nouvellement créée
-      ansible.windows.win_shell: |
-        Start-VM -Name "VM-APP-DEMO"
+        if (-not $existe) {
+            New-VMSwitch -Name $SwitchInterne -SwitchType Internal -Notes "For Evolucare Imaging Internal VMs"
+            New-NetIPAddress -IPAddress 10.42.42.1 -InterfaceAlias "vEthernet (vSwitch Interne)"
+            Disable-NetAdapterBinding -InterfaceAlias "vEthernet (vSwitch Interne)" -ComponentID ms_tcpip6
+
+            Write-Host "Le commutateur $SwitchInterne a ete cree avec succes."
+        } else {
+            Write-Host "Le commutateur $SwitchInterne existe deja."
+        }
+
+- name: Create Virtual Machines
+  hosts: windows_hosts
+  tasks:
+    - name: Execute PowerShell script
+      win_shell: |
+        # Insérez ici le reste du script de création de machines virtuelles...
+
+- name: Download and Unzip Master Images
+  hosts: windows_hosts
+  tasks:
+    - name: Execute PowerShell script
+      win_shell: |
+        # Insérez ici les commandes de téléchargement et de dézippage...
+
+- name: Convert Virtual Hard Disks
+  hosts: windows_hosts
+  tasks:
+    - name: Execute PowerShell script
+      win_shell: |
+        # Insérez ici les commandes de conversion des disques durs virtuels...
+
+- name: Attach Virtual Hard Disks to VM
+  hosts: windows_hosts
+  tasks:
+    - name: Execute PowerShell script
+      win_shell: |
+        # Insérez ici les commandes d'attachement des disques aux machines virtuelles...
+
+- name: Clean Up
+  hosts: windows_hosts
+  tasks:
+    - name: Execute PowerShell script
+      win_shell: |
+        # Insérez ici les commandes de nettoyage...
+
+- name: Start Virtual Machines
+  hosts: windows_hosts
+  tasks:
+    - name: Execute PowerShell script
+      win_shell: |
+        Start-VM $VMsnameAPP
+        Start-VM $VMsnameBDD
