@@ -17,12 +17,12 @@
         New-NetIPAddress -IPAddress 10.42.42.1 -InterfaceAlias "vEthernet (vSwitch Interne)"
         Disable-NetAdapterBinding -InterfaceAlias "vEthernet (vSwitch Interne)" -ComponentID ms_tcpip6
 
-    - name: Créer la machine virtuelle avec 2 vCPU et disque principal dans le répertoire VM
-      ansible.windows.win_shell: |
+#    - name: Créer la machine virtuelle avec 2 vCPU et disque principal dans le répertoire VM
+#      ansible.windows.win_shell: |
 #        New-VM -Name "{{ VMName }}" -MemoryStartupBytes 2147483648 -Generation 1 -SwitchName "{{ SwitchInterne }}" -Path "{{ VMPath }}"
 #        Set-VM -Name "{{ VMName }}" -ProcessorCount "{{ VMCpu }}"
 #        New-Item "{{ VMPath }}{{ VMName }}\\Virtual Hard Disks" -itemType Directory
-      register: vm_creation_output
+#      register: vm_creation_output
 
     - name: Download du Master, Convertion vHDX et Intégration
       ansible.windows.win_shell: |
