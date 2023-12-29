@@ -16,5 +16,5 @@
       win_shell: New-Item -Path "{{ disk_location }}" -ItemType Directory
 
     - name: Create VM
-      win_shell: New-VM -Name MyVM -MemoryStartupBytes {{ vram }} -Path "{{ vm_location }}" -NewVHDPath "{{ disk_location }}/MyDisk.vhdx" -NewVHDSizeBytes 10GB -SwitchName "YourVirtualSwitchName"
+      win_shell: New-VM -Name MyVM -MemoryStartupBytes {{ vram }} -Path "{{ vm_location }}" -NewVHDPath "{{ disk_location }}/MyDisk.vhdx" -NewVHDSizeBytes 10GB
 
