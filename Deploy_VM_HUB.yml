@@ -28,9 +28,9 @@
 #	        New-NetIPAddress -IPAddress 10.42.42.1 -InterfaceAlias "vEthernet (vSwitch Interne)"
 #                Disable-NetAdapterBinding -InterfaceAlias "vEthernet (vSwitch Interne)" -ComponentID ms_tcpip6
 #                Write-Host "Le commutateur "{{ SwitchInterne }}" a ete cree avec succes."
-        } else {
-                Write-Host "Le commutateur "{{ SwitchInterne }}" existe deja."
-        }   
+#        } else {
+#                Write-Host "Le commutateur "{{ SwitchInterne }}" existe deja."
+#        }   
 
     - name: Créer la machine virtuelle avec 2 vCPU et disque principal dans le répertoire VM
       ansible.windows.win_shell: |
