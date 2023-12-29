@@ -4,7 +4,7 @@
   gather_facts: no
   vars:
     vcpu: "2"
-    vram: "4096"
+    vram: "4GB"
     vm_location: "C:\\HyperV\\VMs"
     disk_location: "C:\\HyperV\\Disks"
     
