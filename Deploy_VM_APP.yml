@@ -3,6 +3,10 @@
   hosts: all
   gather_facts: no
   tasks:
+    - name: Récupérer le nom de la carte réseau active
+      ansible.windows.win_shell: |
+        Get-NetAdapter | Where-Object { $_.Status -eq 'Up' } | Select-Object -ExpandProperty Name
+      register: active_net_adapter
   
     - name: Créer un vSwitch interne
       ansible.windows.win_shell: |
@@ -10,7 +14,8 @@
       
     - name: Créer un vSwitch Externe
       ansible.windows.win_shell: |
-        New-VMSwitch -Name "VSwitch_externe_DEMO" -SwitchType External -NetAdapterName "Nom_carte_reseau"
+        $ActiveNetAdapter = "{{ active_net_adapter.stdout }}"
+        New-VMSwitch -Name "VSwitch_externe_DEMO" -SwitchType External -NetAdapterName $ActiveNetAdapter
 
     - name: Créer la machine virtuelle avec 4 vCPU et disque principal dans le répertoire VM
       ansible.windows.win_shell: |
