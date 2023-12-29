@@ -11,17 +11,25 @@
         Get-NetAdapter | Where-Object { $_.Status -eq 'Up' } | Select-Object -ExpandProperty Name
       register: active_net_adapter
       
-    - name: Vérifier l'existence des vSwitch
+    - name: Vérifier l'existence des vSwitch Interne
       ansible.windows.win_shell: |
         Get-VMSwitch -SwitchType Internal
       register: internal_vswitch_check
       failed_when: internal_vswitch_check.rc != 0
+      
+    - name: Afficher la sortie de la commande Get-VMSwitch -SwitchType Internal
+      debug:
+        var: internal_vswitch_check.stdou
 
-    - name: Vérifier l'existence des vSwitch connectés à une carte réseau
+    - name: Vérifier l'existence des vSwitch Externe
       ansible.windows.win_shell: |
         Get-VMSwitch -SwitchType External
       register: external_vswitch_check
       failed_when: external_vswitch_check.rc != 0
+      
+    - name: Afficher la sortie de la commande Get-VMSwitch -SwitchType Externe
+      debug:
+        var: external_vswitch_check.stdou
       
     - name: Créer un vSwitch interne
       ansible.windows.win_shell: |
