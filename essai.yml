@@ -50,11 +50,7 @@
 
 
 
-
-    - name: Nettoyage des disques et répertoire
-      ansible.windows.win_shell: |
-        rm "{{ VMPath }}{{ VMName }}\\Virtual Hard Disks\\IMGPRD-HUB_MASTER_HV.zip" -Force
-        rm "{{ VMPath }}{{ VMName }}\\Virtual Hard Disks\\*.vhd" -Force    
+  
            
     - name: Vérifier la sortie de la création de la VM
       debug:
