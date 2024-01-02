@@ -51,11 +51,4 @@
 
 
   
-           
-    - name: Vérifier la sortie de la création de la VM
-      debug:
-          var: vm_creation_output.stdout
 
-    - name: Démarrer la VM nouvellement créée
-      ansible.windows.win_shell: |
-        Start-VM -Name "{{ VMName }}"
