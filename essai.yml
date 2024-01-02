@@ -38,11 +38,6 @@
        $destination = "$vmPath$vmName\\Virtual Hard Disks\\IMGPRD-HUB_MASTER_HV.zip"
        $destPath = "$vmPath$vmName\\Virtual Hard Disks\\"
 
-       # Vérification de l'existence des répertoires de destination
-       if (!(Test-Path -Path $destPath)) {
-         New-Item -ItemType Directory -Path $destPath -Force
-       }
-
        # Téléchargement du fichier zip
        ansible.windows.win_get_url:
         url: $url
