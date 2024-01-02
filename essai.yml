@@ -26,13 +26,13 @@
 
     - name: Download du Master, Conversion vHDX et Intégration
       ansible.windows.win_shell: |
-        $pair = "$('DownloadsMaster'):$('1Y6fhgt?MQ?InkR#75UWy1TujTNN?Sf&5bvE#BnX')"
+        $pair = "`$('DownloadsMaster'):$('1Y6fhgt?MQ?InkR#75UWy1TujTNN?Sf&5bvE#BnX')"
         $encodedCreds = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes($pair))
         $basicAuthValue = "Basic $encodedCreds"
         $Headers = @{
-          	Authorization = $basicAuthValue
+          Authorization = $basicAuthValue
         }
-        $downloadCommand = "Invoke-WebRequest -Uri ""{{ URLHUB }}"" -OutFile ""{{ VMPath }}{{ VMName }}\\Virtual Hard Disks\\IMGPRD-HUB_MASTER_HV.zip"" -Headers $Headers"
+        $downloadCommand = "Invoke-WebRequest -Uri '{{ URLHUB }}' -OutFile '{{ VMPath }}{{ VMName }}\\Virtual Hard Disks\\IMGPRD-HUB_MASTER_HV.zip' -Headers $Headers"
         Measure-Command { Invoke-Expression $downloadCommand }
         
         Expand-Archive -LiteralPath "{{ VMPath }}{{ VMName }}\\Virtual Hard Disks\\IMGPRD-HUB_MASTER_HV.zip" -DestinationPath "{{ VMPath }}{{ VMName }}\\Virtual Hard Disks\\" -Force
