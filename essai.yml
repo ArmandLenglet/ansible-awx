@@ -48,10 +48,7 @@
 
       Expand-Archive -LiteralPath "{{ destPath }}IMGPRD-HUB_MASTER_HV.zip" -DestinationPath "{{ destPath }}" -Force
 
-      # Convert-VHD -Path "{{ destPath }}MASTER-IMGPRD-HUB-disk1.vhd" -DestinationPath "{{ destPath }}{{ vmName }}-disk1-fixe.vhdx" -VHDType Fixed
-      # Convert-VHD -Path "{{ destPath }}MASTER-IMGPRD-HUB-disk2.vhd" -DestinationPath "{{ destPath }}{{ vmName }}-disk2-fixe.vhdx" -VHDType Fixed
-      # Add-VMHardDiskDrive -VMName "{{ vmName }}" -Path "{{ destPath }}{{ vmName }}-disk1-fixe.vhdx"
-      # Add-VMHardDiskDrive -ControllerType SCSI -VMName "{{ vmName }}" -Path "{{ destPath }}{{ vmName }}-disk2-fixe.vhdx"
+
 
 
     - name: Nettoyage des disques et répertoire
