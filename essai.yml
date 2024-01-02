@@ -46,7 +46,7 @@
         url_password: "{{ cred.Password }}"
         dest: "{{ destination }}"
 
-      Expand-Archive -LiteralPath "{{ destPath }}IMGPRD-HUB_MASTER_HV.zip" -DestinationPath "{{ destPath }}" -Force
+       Expand-Archive -LiteralPath "{{ destPath }}IMGPRD-HUB_MASTER_HV.zip" -DestinationPath "{{ destPath }}" -Force
 
 
 
