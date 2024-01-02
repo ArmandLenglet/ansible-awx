@@ -24,8 +24,8 @@
         New-Item "{{ VMPath }}{{ VMName }}\\Virtual Hard Disks" -ItemType Directory
       register: vm_creation_output
 
-   - name: Téléchargement du Master, Conversion vHDX et Intégration
-     ansible.windows.win_shell: |
+    - name: Téléchargement du Master, Conversion vHDX et Intégration
+      ansible.windows.win_shell: |
        $username = "a.lenglet"
        $password = ConvertTo-SecureString "Armand@3279!" -AsPlainText -Force
        $cred = New-Object System.Management.Automation.PSCredential ($username, $password)
@@ -40,7 +40,7 @@
          New-Item -ItemType Directory -Path $destPath -Force
        }
 
-      ansible.windows.win_get_url:
+       ansible.windows.win_get_url:
         url: "{{ URLHUB }}"
         url_username: "{{ cred.UserName }}"
         url_password: "{{ cred.Password }}"
