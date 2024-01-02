@@ -26,11 +26,14 @@
 
     - name: Download du Master, Conversion vHDX et Intégration
       ansible.windows.win_shell: |
-      get_url:
-        url: {{ URLHUB }}
-        url_password: Armand@3279!
-        url_ursername: a.lenglet
-        dest: {{ VMPath }}{{ VMName }}\\Virtual Hard Disks\\IMGPRD-HUB_MASTER_HV.zip
+       $username = "a.lenglet"
+       $password = "Armand@3279!"
+       $url = "{{ URLHUB }}"
+       $destination = "{{ VMPath }}{{ VMName }}\\Virtual Hard Disks\\IMGPRD-HUB_MASTER_HV.zip"
+
+       # Utilisation de la tâche get_url pour télécharger le fichier
+       $get_url_command = "ansible.windows.win_get_url -url $url -url_username $username -url_password $password -dest $destination"
+       Invoke-Expression $get_url_command
         
        Expand-Archive -LiteralPath "{{ VMPath }}{{ VMName }}\\Virtual Hard Disks\\IMGPRD-HUB_MASTER_HV.zip" -DestinationPath "{{ VMPath }}{{ VMName }}\\Virtual Hard Disks\\" -Force
        Convert-VHD -Path "{{ VMPath }}{{ VMName }}\\Virtual Hard Disks\\MASTER-IMGPRD-HUB-disk1.vhd" -DestinationPath "{{ VMPath }}{{ VMName }}\\Virtual Hard Disks\\{{ VMName }}-disk1-fixe.vhdx" -VHDType Fixed
